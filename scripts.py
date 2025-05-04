@@ -1,21 +1,25 @@
 from datacenter.models import Schoolkid, Mark, Chastisement, Lesson, Commendation
 import random
 
+def get_student(student_name):
+  student = Schoolkid.objects.filter(full_name__contains=student_name).get()
+  return student
+
 
 def fix_marks(student_name):
-  student = Schoolkid.objects.filter(full_name__contains=student_name).get()
+  student = get_student(student_name)
   bad_marks = Mark.objects.filter(schoolkid = student, points__in = [2,3])
   bad_marks.update(points = 5)
 
 
 def remove_chastisements(student_name):
-  student = Schoolkid.objects.filter(full_name__contains=student_name).get()
+  student = get_student(student_name)
   student_chastisements = Chastisement.objects.filter(schoolkid=student)
   student_chastisements.delete()
 
 
 def create_commendation(student_name, subject=""):
-  student = Schoolkid.objects.filter(full_name__contains=student_name).get()
+  student = get_student(student_name)
   student_grade = student.year_of_study
   student_group = student.group_letter
   student_lessons = Lesson.objects.filter(year_of_study=student_grade, group_letter=student_group, subject__title__contains=subject)

@@ -3,6 +3,9 @@ from django.core.exceptions import ObjectDoesNotExist
 import random
 
 
+COMPLIMENTS = ["Молодец!", "Отлично!", "Хорошо!", "Великолепно!", "Потрясающе!",  "С каждым разом у тебя получается всё лучше!", "Очень хороший ответ!"]
+
+
 def get_student(student_name):
   try:
     student = Schoolkid.objects.get(full_name__contains=student_name)
@@ -33,10 +36,9 @@ def create_commendation(student_name, subject=""):
   student_group = student.group_letter
   student_lessons = Lesson.objects.filter(year_of_study=student_grade, group_letter=student_group, subject__title__contains=subject)
 
-  commendation_texts = ["Молодец!", "Отлично!", "Хорошо!", "Великолепно!", "Потрясающе!",  "С каждым разом у тебя получается всё лучше!", "Очень хороший ответ!"]
   Commendation_lesson = random.choice(student_lessons)
   Commendation_date = Commendation_lesson.date
   Commendation_subject = Commendation_lesson.subject
   Commendation_teacher = Commendation_lesson.teacher
-  commendation_text = random.choice(commendation_texts)
+  commendation_text = random.choice(COMPLIMENTS)
   Commendation.objects.create(text=commendation_text, created=Commendation_date, schoolkid=student, subject=Commendation_subject, teacher=Commendation_teacher)

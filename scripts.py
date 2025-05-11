@@ -20,20 +20,24 @@ def get_student(student_name):
 
 def fix_marks(student_name):
   student = get_student(student_name)
+  if student == None: return 0
   bad_marks = Mark.objects.filter(schoolkid = student, points__in = [2,3])
   bad_marks.update(points = 5)
 
 
 def remove_chastisements(student_name):
   student = get_student(student_name)
+  if student == None: return 0
   student_chastisements = Chastisement.objects.filter(schoolkid=student)
   student_chastisements.delete()
 
 
 def create_commendation(student_name, subject=""):
   student = get_student(student_name)
+  if student == None: return 0
   student_grade = student.year_of_study
   student_group = student.group_letter
+  
   commendation_lesson = Lesson.objects.filter(
     year_of_study=student_grade,
     group_letter=student_group,

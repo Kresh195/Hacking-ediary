@@ -1,10 +1,20 @@
 from datacenter.models import Schoolkid, Mark, Chastisement, Lesson, Commendation
+from django.core.exceptions import ObjectDoesNotExist
 import random
 
-def get_student(student_name):
-  student = Schoolkid.objects.filter(full_name__contains=student_name).get()
-  return student
 
+def get_student(student_name):
+  try:
+    student = Schoolkid.objects.get(full_name__contains=student_name)
+    return student
+  except Schoolkid.DoesNotExist:
+    print('Такого ученика не существует!')
+    return None
+  # student = Schoolkid.objects.get(full_name__contains=student_name).first()
+  # if student is None:
+  #   print('Такого ученика не существует!')
+  #   return None
+  # return student
 
 def fix_marks(student_name):
   student = get_student(student_name)

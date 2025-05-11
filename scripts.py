@@ -43,7 +43,10 @@ def create_commendation(student_name, subject=""):
     group_letter=student_group,
     subject__title__contains=subject
   ).order_by("?").first()
-
+  if commendation_lesson == None:
+    print("Уроков по данному предмету нет!")
+    return 0
+  
   commendation_date = commendation_lesson.date
   commendation_subject = commendation_lesson.subject
   commendation_teacher = commendation_lesson.teacher

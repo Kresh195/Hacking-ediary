@@ -34,15 +34,14 @@ def create_commendation(student_name, subject=""):
   student = get_student(student_name)
   student_grade = student.year_of_study
   student_group = student.group_letter
-
-  Commendation_lesson = random.choice(student_lessons)
-  Commendation_date = Commendation_lesson.date
-  Commendation_subject = Commendation_lesson.subject
-  Commendation_teacher = Commendation_lesson.teacher
   commendation_lesson = Lesson.objects.filter(
     year_of_study=student_grade,
     group_letter=student_group,
     subject__title__contains=subject
   ).order_by("?").first()
+
+  commendation_date = commendation_lesson.date
+  commendation_subject = commendation_lesson.subject
+  commendation_teacher = commendation_lesson.teacher
   commendation_text = random.choice(COMPLIMENTS)
-  Commendation.objects.create(text=commendation_text, created=Commendation_date, schoolkid=student, subject=Commendation_subject, teacher=Commendation_teacher)
+  Commendation.objects.create(text=commendation_text, created=commendation_date, schoolkid=student, subject=commendation_subject, teacher=commendation_teacher)

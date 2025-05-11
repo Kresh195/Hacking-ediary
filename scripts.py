@@ -10,11 +10,10 @@ def get_student(student_name):
   except Schoolkid.DoesNotExist:
     print('Такого ученика не существует!')
     return None
-  # student = Schoolkid.objects.get(full_name__contains=student_name).first()
-  # if student is None:
-  #   print('Такого ученика не существует!')
-  #   return None
-  # return student
+  except Schoolkid.MultipleObjectsReturned:
+    print('Учеников с таким именем много. Пожалуйста, уточните!')
+    return None
+
 
 def fix_marks(student_name):
   student = get_student(student_name)
